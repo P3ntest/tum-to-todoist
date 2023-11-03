@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@doist/todoist-api-typescript": "^3.0.0",
+    "croner": "^7.0.4",
     "node-ical": "^0.16.1"
   }
 }
