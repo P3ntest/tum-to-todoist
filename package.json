@@ -1,0 +1,15 @@
+{
+  "name": "tum-to-todoist",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@doist/todoist-api-typescript": "^3.0.0",
+    "node-ical": "^0.16.1"
+  }
+}
