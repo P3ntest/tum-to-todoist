@@ -1,5 +1,5 @@
 import { TodoistApi } from "@doist/todoist-api-typescript";
-import { getAllStreams } from "./live";
+import { getAllStreams, getPinned } from "./live";
 import { Database } from "bun:sqlite";
 import { Cron } from "croner";
 
@@ -46,6 +46,12 @@ const startFrom = process.env.START_FROM_DATE
   : -Infinity;
 
 async function sync() {
+  console.log("Checking cookie validity...");
+  if ((await getPinned()).length === 0) {
+    console.log("Cookie invalid");
+    throw new Error("Cookie invalid");
+  }
+
   console.log("Getting streams...");
   const streams = await getAllStreams();
 
