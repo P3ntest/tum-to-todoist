@@ -16,6 +16,17 @@ const project = (await api.getProjects()).find(
 if (!project) {
   throw new Error(`Project ${projectName} not found`);
 }
+console.log(await api.getSections());
+const sectionId = process.env.SECTION_NAME
+  ? (await api.getSections()).find(
+      (s) =>
+        s.name.toLowerCase() === process.env.SECTION_NAME?.toLowerCase() &&
+        s.projectId === project.id
+    )?.id
+  : null;
+if (process.env.SECTION_NAME && !sectionId) {
+  throw new Error(`Section ${process.env.SECTION_NAME} not found`);
+}
 
 const db = new Database("data/todoist.db", {
   create: true,
@@ -58,6 +69,7 @@ async function sync() {
         content: `${stream.slug.toUpperCase()} - ${getNiceTime(dueDate)}`,
         description: stream.url,
         dueDate: dueDate.toISOString().split("T")[0],
+        sectionId: sectionId ?? undefined,
       });
 
       console.log("Added", stream.id);
