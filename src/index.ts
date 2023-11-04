@@ -31,6 +31,10 @@ function getNiceTime(date: Date) {
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 }
 
+const startFrom = process.env.START_FROM_DATE
+  ? new Date(process.env.START_FROM_DATE).getTime()
+  : -Infinity;
+
 async function sync() {
   console.log("Getting streams...");
   const streams = await getAllStreams();
@@ -39,7 +43,8 @@ async function sync() {
   console.log("Filtering streams...");
   const newStreams = streams.filter(
     (stream) =>
-      !db.query(`SELECT * FROM streams WHERE id = ?`).all(stream.id).length
+      !db.query(`SELECT * FROM streams WHERE id = ?`).all(stream.id).length &&
+      stream.start.getTime() > startFrom
   );
 
   console.log("Adding", newStreams.length, "streams...");
