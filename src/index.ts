@@ -16,7 +16,6 @@ const project = (await api.getProjects()).find(
 if (!project) {
   throw new Error(`Project ${projectName} not found`);
 }
-console.log(await api.getSections());
 const sectionId = process.env.SECTION_NAME
   ? (await api.getSections()).find(
       (s) =>
