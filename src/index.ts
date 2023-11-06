@@ -7,6 +7,7 @@ const projectName = process.env.PROJECT_NAME;
 
 const api = new TodoistApi(process.env.TODOIST_API_KEY!);
 
+console.log("Getting project...");
 const project = (await api.getProjects()).find(
   (project) =>
     project.name.toLowerCase() ===
@@ -16,6 +17,7 @@ const project = (await api.getProjects()).find(
 if (!project) {
   throw new Error(`Project ${projectName} not found`);
 }
+console.log("Getting section...");
 const sectionId = process.env.SECTION_NAME
   ? (await api.getSections()).find(
       (s) =>
@@ -27,6 +29,7 @@ if (process.env.SECTION_NAME && !sectionId) {
   throw new Error(`Section ${process.env.SECTION_NAME} not found`);
 }
 
+console.log("Getting database...");
 const db = new Database("data/todoist.db", {
   create: true,
 });
